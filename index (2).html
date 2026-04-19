@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Malak 🎂</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --rose: #ff6b9d;
+      --pink: #ff8fab;
+      --gold: #ffd700;
+      --soft: #fff0f6;
+      --deep: #c9184a;
+      --lilac: #e8b4d0;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Tajawal', sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a0010 0%, #3d0030 40%, #1a0010 100%);
+      overflow-x: hidden;
+    }
+
+    /* STARS */
+    .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+    .star {
+      position: absolute; border-radius: 50%; background: white;
+      animation: twinkle var(--d) infinite ease-in-out alternate;
+    }
+    @keyframes twinkle {
+      from { opacity: 0.1; transform: scale(0.8); }
+      to   { opacity: 0.9; transform: scale(1.2); }
+    }
+
+    /* LOCK SCREEN */
+    #lock-screen {
+      position: fixed; inset: 0; z-index: 100;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #1a0010 0%, #3d0030 60%, #1a0010 100%);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    #lock-screen.hide { opacity: 0; transform: scale(1.05); pointer-events: none; }
+    .lock-box {
+      background: rgba(255,255,255,0.05); backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,107,157,0.3); border-radius: 32px;
+      padding: 56px 48px; text-align: center; max-width: 420px; width: 90%;
+      box-shadow: 0 0 80px rgba(255,107,157,0.15), inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    .lock-icon { font-size: 64px; margin-bottom: 16px; animation: float 3s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    .lock-title { font-size: 28px; font-weight: 900; color: white; margin-bottom: 8px; }
+    .lock-subtitle { font-size: 15px; color: rgba(255,255,255,0.5); margin-bottom: 36px; }
+    .password-input {
+      width: 100%; padding: 16px 24px; border: 2px solid rgba(255,107,157,0.3);
+      border-radius: 16px; background: rgba(255,255,255,0.07); color: white;
+      font-size: 18px; font-family: 'Tajawal', sans-serif; text-align: center;
+      outline: none; transition: border-color 0.3s, box-shadow 0.3s;
+      letter-spacing: 4px; direction: ltr;
+    }
+    .password-input::placeholder { letter-spacing: 0; color: rgba(255,255,255,0.3); }
+    .password-input:focus { border-color: var(--rose); box-shadow: 0 0 0 4px rgba(255,107,157,0.15); }
+    .unlock-btn {
+      margin-top: 20px; width: 100%; padding: 16px;
+      background: linear-gradient(135deg, var(--rose), var(--deep));
+      border: none; border-radius: 16px; color: white; font-size: 18px;
+      font-family: 'Tajawal', sans-serif; font-weight: 700; cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 8px 32px rgba(255,107,157,0.4);
+    }
+    .unlock-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(255,107,157,0.5); }
+    .unlock-btn:active { transform: translateY(0); }
+    .error-msg { color: #ff4466; margin-top: 12px; font-size: 14px; opacity: 0; transition: opacity 0.3s; }
+    .error-msg.show { opacity: 1; }
+    .shake { animation: shake 0.4s ease; }
+    @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
+
+    /* BIRTHDAY PAGE */
+    #birthday-page { display: none; position: relative; z-index: 1; min-height: 100vh; }
+    #birthday-page.visible { display: block; }
+
+    /* CONFETTI */
+    .confetti-piece {
+      position: fixed; top: -20px; width: 10px; height: 10px; border-radius: 2px;
+      animation: confettiFall linear forwards; z-index: 200; pointer-events: none;
+    }
+    @keyframes confettiFall {
+      0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* HERO */
+    .hero { text-align: center; padding: 80px 24px 40px; position: relative; }
+    .birthday-badge {
+      display: inline-block; background: linear-gradient(135deg, var(--rose), var(--deep));
+      color: white; padding: 8px 28px; border-radius: 100px; font-size: 13px;
+      font-weight: 700; letter-spacing: 3px; margin-bottom: 28px; text-transform: uppercase;
+      box-shadow: 0 4px 20px rgba(255,107,157,0.5); animation: pulse-glow 2s ease-in-out infinite;
+    }
+    @keyframes pulse-glow {
+      0%,100% { box-shadow: 0 4px 20px rgba(255,107,157,0.5); }
+      50%     { box-shadow: 0 4px 40px rgba(255,107,157,0.9); }
+    }
+    .hero-name {
+      font-family: 'Dancing Script', cursive; font-size: clamp(64px,15vw,130px);
+      color: transparent; background: linear-gradient(135deg, var(--gold) 0%, #ffb347 40%, var(--rose) 100%);
+      -webkit-background-clip: text; background-clip: text; line-height: 1; margin-bottom: 16px;
+      animation: nameReveal 1.2s ease-out forwards; filter: drop-shadow(0 0 30px rgba(255,215,0,0.4));
+    }
+    @keyframes nameReveal {
+      from { opacity: 0; transform: translateY(30px) scale(0.9); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .hero-emoji-row { font-size: 40px; margin: 12px 0 0; animation: fadeSlideUp 1s ease-out 0.4s both; letter-spacing: 8px; }
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* MESSAGE CARD */
+    .message-section { max-width: 780px; margin: 0 auto; padding: 0 24px 60px; animation: fadeSlideUp 1s ease-out 0.6s both; }
+    .message-card {
+      background: rgba(255,255,255,0.06); backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,107,157,0.25); border-radius: 32px; padding: 48px;
+      position: relative; overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    .message-card::before {
+      content: '❤️'; position: absolute; top: -20px; right: -20px; font-size: 120px;
+      opacity: 0.05; transform: rotate(-15deg); pointer-events: none;
+    }
+    .quote-mark { font-family: 'Dancing Script', cursive; font-size: 80px; color: var(--rose); line-height: 0.5; margin-bottom: 16px; display: block; opacity: 0.6; }
+    .message-text { font-size: clamp(17px,2.5vw,20px); color: rgba(255,255,255,0.9); line-height: 2.2; text-align: right; font-weight: 400; }
+    .message-text strong { color: var(--rose); font-weight: 700; }
+    .happy-bday-line { margin-top: 28px; font-size: 22px; font-weight: 900; color: var(--gold); text-align: center; letter-spacing: 1px; text-shadow: 0 0 20px rgba(255,215,0,0.5); }
+
+    /* PHOTOS */
+    .photos-section { max-width: 1100px; margin: 0 auto; padding: 0 24px 60px; animation: fadeSlideUp 1s ease-out 0.8s both; }
+    .photos-title { text-align: center; font-size: 28px; font-weight: 900; color: white; margin-bottom: 40px; }
+    .photos-title span { color: var(--rose); }
+    .photos-grid { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+    .photo-card {
+      border-radius: 24px; overflow: hidden; aspect-ratio: 4/5; position: relative;
+      border: 2px solid rgba(255,107,157,0.2); box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+      transition: transform 0.4s ease, box-shadow 0.4s ease; cursor: pointer;
+    }
+    .photo-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 60px rgba(255,107,157,0.3); border-color: rgba(255,107,157,0.6); }
+    .photo-card img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
+    .photo-card:hover img { transform: scale(1.05); }
+    .photo-card .photo-overlay {
+      position: absolute; inset: 0; background: linear-gradient(to top, rgba(60,0,30,0.7) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 20px;
+    }
+    .photo-card:hover .photo-overlay { opacity: 1; }
+    .photo-overlay span { color: white; font-size: 24px; }
+
+    /* ============================
+       SPECIAL MESSAGES BUTTON
+    ============================= */
+    .special-btn-section {
+      text-align: center;
+      padding: 20px 24px 80px;
+      animation: fadeSlideUp 1s ease-out 1s both;
+    }
+    .special-messages-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      padding: 22px 52px;
+      background: transparent;
+      border: 2px solid rgba(255,107,157,0.5);
+      border-radius: 100px;
+      color: white;
+      font-size: 20px;
+      font-family: 'Tajawal', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      box-shadow: 0 0 40px rgba(255,107,157,0.2), inset 0 0 40px rgba(255,107,157,0.05);
+    }
+    .special-messages-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,107,157,0.15), rgba(201,24,74,0.15));
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .special-messages-btn:hover {
+      border-color: var(--rose);
+      box-shadow: 0 0 60px rgba(255,107,157,0.5), inset 0 0 40px rgba(255,107,157,0.1);
+      transform: translateY(-3px);
+    }
+    .special-messages-btn:hover::before { opacity: 1; }
+    .special-messages-btn .btn-icon {
+      font-size: 28px;
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+    @keyframes heartbeat {
+      0%,100% { transform: scale(1); }
+      14%     { transform: scale(1.2); }
+      28%     { transform: scale(1); }
+      42%     { transform: scale(1.15); }
+      56%     { transform: scale(1); }
+    }
+    .special-messages-btn .btn-sparkle {
+      position: absolute;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--gold);
+      animation: sparkleOrbit 3s linear infinite;
+    }
+    @keyframes sparkleOrbit {
+      0%   { top: 50%; left: 0%; transform: translate(-50%,-50%) rotate(0deg) translateX(120px); }
+      100% { top: 50%; left: 0%; transform: translate(-50%,-50%) rotate(360deg) translateX(120px); }
+    }
+
+    /* ============================
+       MESSAGES OVERLAY/MODAL
+    ============================= */
+    #messages-overlay {
+      position: fixed; inset: 0; z-index: 500;
+      background: rgba(10,0,10,0.97);
+      backdrop-filter: blur(30px);
+      display: none; flex-direction: column; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.5s ease;
+    }
+    #messages-overlay.open { display: flex; }
+    #messages-overlay.fade-in { opacity: 1; }
+
+    /* Particle bg inside overlay */
+    .msg-particles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    .msg-particle {
+      position: absolute; border-radius: 50%; background: var(--rose);
+      animation: particleDrift linear infinite;
+      opacity: 0;
+    }
+    @keyframes particleDrift {
+      0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+      10%  { opacity: 0.4; }
+      90%  { opacity: 0.1; }
+      100% { transform: translateY(-20px) scale(1); opacity: 0; }
+    }
+
+    .msg-close {
+      position: absolute; top: 24px; left: 24px;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+      color: white; width: 48px; height: 48px; border-radius: 50%;
+      font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s; z-index: 10;
+    }
+    .msg-close:hover { background: rgba(255,107,157,0.3); border-color: var(--rose); }
+
+    .msg-progress-bar {
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: rgba(255,255,255,0.1);
+    }
+    .msg-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--rose), var(--gold));
+      transition: width 0.5s ease;
+      width: 0%;
+    }
+
+    .msg-container {
+      width: 100%; max-width: 720px; padding: 24px 32px;
+      position: relative; z-index: 5; display: flex; flex-direction: column; align-items: center;
+      max-height: 90vh;
+    }
+
+    /* Sender badge */
+    .msg-sender {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, rgba(255,107,157,0.2), rgba(201,24,74,0.2));
+      border: 1px solid rgba(255,107,157,0.4); border-radius: 100px;
+      padding: 10px 28px; margin-bottom: 32px;
+      animation: senderPop 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    }
+    @keyframes senderPop {
+      from { opacity: 0; transform: scale(0.6) translateY(-20px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .msg-sender-icon { font-size: 24px; }
+    .msg-sender-name { font-size: 18px; font-weight: 700; color: var(--rose); }
+    .msg-sender-label { font-size: 13px; color: rgba(255,255,255,0.5); }
+
+    /* Message text box */
+    .msg-text-box {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,107,157,0.2);
+      border-radius: 28px;
+      padding: 40px 44px;
+      max-height: 52vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,107,157,0.3) transparent;
+    }
+    .msg-text-box::-webkit-scrollbar { width: 4px; }
+    .msg-text-box::-webkit-scrollbar-track { background: transparent; }
+    .msg-text-box::-webkit-scrollbar-thumb { background: rgba(255,107,157,0.4); border-radius: 4px; }
+
+    #typewriter-text {
+      font-size: clamp(16px, 2.2vw, 19px);
+      color: rgba(255,255,255,0.92);
+      line-height: 2.3;
+      text-align: right;
+      font-weight: 400;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .cursor-blink {
+      display: inline-block;
+      width: 2px; height: 1.1em;
+      background: var(--rose);
+      vertical-align: text-bottom;
+      margin-right: 2px;
+      animation: blink 0.8s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* Navigation */
+    .msg-nav {
+      display: flex; align-items: center; gap: 20px; margin-top: 32px;
+      flex-wrap: wrap; justify-content: center;
+    }
+
+    .msg-nav-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 36px; border-radius: 100px; font-size: 16px;
+      font-family: 'Tajawal', sans-serif; font-weight: 700; cursor: pointer;
+      transition: all 0.3s ease; border: 2px solid transparent;
+    }
+    .msg-next-btn {
+      background: linear-gradient(135deg, var(--rose), var(--deep));
+      color: white; box-shadow: 0 8px 30px rgba(255,107,157,0.4);
+    }
+    .msg-next-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(255,107,157,0.6); }
+    .msg-next-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+    .msg-skip-btn {
+      background: transparent; color: rgba(255,255,255,0.5);
+      border-color: rgba(255,255,255,0.15); font-size: 14px; padding: 12px 24px;
+    }
+    .msg-skip-btn:hover { color: white; border-color: rgba(255,255,255,0.4); }
+
+    .msg-counter {
+      font-size: 13px; color: rgba(255,255,255,0.35); text-align: center; margin-top: 12px;
+    }
+
+    /* Placeholder message style */
+    .placeholder-msg {
+      text-align: center; padding: 20px 0;
+    }
+    .placeholder-msg .placeholder-icon { font-size: 56px; margin-bottom: 16px; }
+    .placeholder-msg p { color: rgba(255,255,255,0.5); font-size: 17px; line-height: 1.8; }
+
+    /* FOOTER */
+    .footer { text-align: center; padding: 40px; color: rgba(255,255,255,0.3); font-size: 14px; }
+    .footer span { color: var(--rose); }
+
+    /* FLOATING HEARTS */
+    .floating-hearts { position: fixed; bottom: 0; left: 0; width: 100%; pointer-events: none; z-index: 0; }
+    .heart { position: absolute; bottom: -50px; font-size: 20px; animation: floatHeart linear infinite; opacity: 0; }
+    @keyframes floatHeart {
+      0%   { bottom: -50px; opacity: 0; transform: translateX(0) rotate(0deg); }
+      10%  { opacity: 1; }
+      90%  { opacity: 0.6; }
+      100% { bottom: 110vh; opacity: 0; transform: translateX(50px) rotate(20deg); }
+    }
+
+    @media (max-width: 600px) {
+      .message-card { padding: 32px 24px; }
+      .msg-container { padding: 16px 16px; }
+      .msg-text-box { padding: 28px 22px; }
+      .special-messages-btn { padding: 18px 36px; font-size: 17px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- STARS -->
+  <div class="stars" id="stars"></div>
+
+  <!-- LOCK SCREEN -->
+  <div id="lock-screen">
+    <div class="lock-box" id="lock-box">
+      <div class="lock-icon">🔐</div>
+      <div class="lock-title">صفحة خاصة</div>
+      <div class="lock-subtitle">ادخل الكلمة السرية للمتابعة</div>
+      <input class="password-input" id="pwd" type="password" placeholder="●●●●●" maxlength="20"
+        onkeydown="if(event.key==='Enter') tryUnlock()">
+      <button class="unlock-btn" onclick="tryUnlock()">✨ افتح</button>
+      <div class="error-msg" id="err">كلمة المرور غلط، حاول تاني 🙈</div>
+    </div>
+  </div>
+
+  <!-- BIRTHDAY PAGE -->
+  <div id="birthday-page">
+    <div class="floating-hearts" id="hearts-container"></div>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="birthday-badge">🎂 Happy Birthday 🎂</div>
+      <div class="hero-name">Malak</div>
+      <div class="hero-emoji-row">🌹 💖 ✨ 🎉 💫</div>
+    </div>
+
+    <!-- MAIN MESSAGE -->
+    <div class="message-section">
+      <div class="message-card">
+        <span class="quote-mark">"</span>
+        <p class="message-text">
+          كل سنة وإنتي طيبة ❤️<br><br>
+          وجودك دايماً بيفرق معانا وبيخلينا أحسن.<br>
+          إنتي مش بس شخص مميز…<br>
+          <strong>إنتي سبب في إننا نبتسم من غير سبب.</strong><br><br>
+          أتمنى السنة الجديدة دي تكون مليانة <strong>نجاح وفرح</strong> وتحقيق لكل حاجة بتحلمي بيها.<br>
+          وإنك تفضلي دايماً <strong>قوية، جميلة، ومبهجة</strong> زي ما إنتي. 💫
+        </p>
+        <div class="happy-bday-line">🎉 Happy Birthday Malak! 🎉<br>
+          <span style="font-size:16px;font-weight:400;color:rgba(255,255,255,0.6)">
+            وإن شاء الله كل أيامك الجاية تبقى أحلى بكتير 💖
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHOTOS -->
+    <div class="photos-section">
+      <div class="photos-title">لحظات <span>مميزة</span> 📸</div>
+      <div class="photos-grid" id="photos-grid">
+        <div class="photo-card">
+          <img src="1.jpeg" alt="صورة 1" onerror="this.src='https://placehold.co/400x500/3d0030/ff6b9d?text=📸'">
+          <div class="photo-overlay"><span>💖</span></div>
+        </div>
+        <div class="photo-card">
+          <img src="2.jpeg" alt="صورة 2" onerror="this.src='https://placehold.co/400x500/3d0030/ff6b9d?text=📸'">
+          <div class="photo-overlay"><span>🌹</span></div>
+        </div>
+        <div class="photo-card">
+          <img src="3.jpeg" alt="صورة 3" onerror="this.src='https://placehold.co/400x500/3d0030/ff6b9d?text=📸'">
+          <div class="photo-overlay"><span>✨</span></div>
+        </div>
+        <div class="photo-card">
+          <img src="4.jpeg" alt="صورة 4" onerror="this.src='https://placehold.co/400x500/3d0030/ff6b9d?text=📸'">
+          <div class="photo-overlay"><span>🎉</span></div>
+        </div>
+        <div class="photo-card">
+          <img src="5.jpeg" alt="صورة 5" onerror="this.src='https://placehold.co/400x500/3d0030/ff6b9d?text=📸'">
+          <div class="photo-overlay"><span>💫</span></div>
+        </div>
+        <div class="photo-card">
+          <img src="6.jpeg" alt="صورة 6" onerror="this.src='https://placehold.co/400x500/3d0030/ff6b9d?text=📸'">
+          <div class="photo-overlay"><span>💕</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SPECIAL MESSAGES BUTTON ===== -->
+    <div class="special-btn-section">
+      <button class="special-messages-btn" onclick="openMessages()">
+        <span class="btn-sparkle"></span>
+        <span class="btn-icon">💌</span>
+        <span>رسائل خاصة</span>
+        <span style="font-size:14px;opacity:0.6;font-weight:400">من أحبّك</span>
+      </button>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">صُنع بـ <span>❤️</span> خصيصاً لـ Malak</div>
+  </div>
+
+  <!-- ============================
+       MESSAGES OVERLAY
+  ============================= -->
+  <div id="messages-overlay">
+    <div class="msg-particles" id="msg-particles"></div>
+    <div class="msg-progress-bar"><div class="msg-progress-fill" id="progress-fill"></div></div>
+    <button class="msg-close" onclick="closeMessages()">✕</button>
+
+    <div class="msg-container">
+      <!-- Sender -->
+      <div class="msg-sender" id="msg-sender">
+        <span class="msg-sender-icon" id="sender-icon">💌</span>
+        <div>
+          <div class="msg-sender-name" id="sender-name">عبد الحميد</div>
+          <div class="msg-sender-label">رسالة خاصة</div>
+        </div>
+      </div>
+
+      <!-- Text box -->
+      <div class="msg-text-box">
+        <div id="typewriter-text"></div>
+        <span class="cursor-blink" id="cursor"></span>
+      </div>
+
+      <!-- Nav -->
+      <div class="msg-nav">
+        <button class="msg-nav-btn msg-skip-btn" onclick="skipTyping()">تخطّى ⏩</button>
+        <button class="msg-nav-btn msg-next-btn" id="next-btn" onclick="nextMessage()" disabled>
+          الرسالة الجاية ←
+        </button>
+      </div>
+      <div class="msg-counter" id="msg-counter">١ / ١١</div>
+    </div>
+  </div>
+
+  <audio id="bg-music" src="song.mp3" preload="auto"></audio>
+
+  <script>
+    // ===========================
+    //  MESSAGES DATA
+    // ===========================
+    const MESSAGES = [
+      {
+        sender: "عبد الحميد",
+        icon: "🌟",
+        text: `إلى روحٍ تُؤمِّل لها القلوبُ الخير، وتستبشر لها الأيامُ الفتح.
+
+ليس لأنّك تتمنّى الخير أرجوه لك، بل لأنّك تستحقّه قبل أن تتمنّاه.
+
+أراك من أولئك الذين إن صدقوا في المسير، مهّد الله لهم الطرق التي لم تخطر لهم على بال، وفتح لهم من الأبواب ما ظنّوه يومًا بعيدًا.
+
+أتمنى لك أن تبلغ من مرادك ما يدهشك، وأن ترى ثمرة صبرك يومًا وقد أينعت أمام عينيك، فتدرك أن كل خطوة صادقة لم تذهب سدى.
+
+وأن تمضي أعوامك القادمة وأنت أكثر سكينة، أعمق يقينًا، وأقرب إلى المعاني التي خُلِق القلب لأجلها.
+
+ولعلّ أجمل ما أرجوه لك أن يمنحك الله أعوامًا في مدينة الطاعة، لا تُقاس بعدد الأيام، بل بما يملؤها من نور، وأن يجعل لك في كل عام فتحًا جديدًا، وفي كل طريقٍ تسلكه أثرًا طيبًا يبقى بعدك.
+
+فامضِ كما أنت، بقلبٍ يعرف الطريق، وعزمٍ لا يلين، وروحٍ خُلقت لتبلغ أبعد مما تتصور.
+
+— — —
+
+تَمَضَّ في الدربِ لا تُصغِ الرياحَ إذا هَبَّتْ… فصاحبُ عزمِ القلبِ لا يَهِنُ
+واغرِسْ خطاكَ، فإنَّ الأرضَ تحفظُها يومًا… ويُزهِرُ في آثارِها الزَّمَنُ
+
+إنَّ الكبارَ إذا ما ضاقَ مُنطلَقٌ شقّوا المدى… فاستحالَ الضيقُ مُتَّسِعَا
+والعزمُ إن صدقَتْ في النفسِ غايتُه جعلَ الطموحَ على الأيامِ مُرتفعَا
+
+سرْ، فالمعالي لمن يمضي بثابتِه لا ينثني، ولِمَن في الصبرِ قد رَسَخَا
+فإن أردتَ العُلا فاجعلْ مبادئَكَ نجمًا، ودعْ همَّةَ الأرواحِ تنطلِقَا
+
+ما خابَ قلبٌ رأى في اللهِ مُعتمدًا ولا تراجعَ من في الحقِّ قد ثَبَتَا
+فامضِ، فإنَّ وراءَ الصبرِ مُبتسَمًا فجرًا… يُبدِّدُ ليلَ اليأسِ إن أقبَتَا
+
+وكنْ كما أنتَ… نورًا لا يخبو وهجُهُ وإن توارتْ وراءَ الغيمِ أنجُمُهُ
+فالطودُ يبقى عظيمًا في ثباتِهِ حتى وإن لم تُحيِّ الدهرَ أعلامُهُ.`
+      },
+      {
+        sender: "أستاذة هند",
+        icon: "🌸",
+        placeholder: true,
+        text: `[ ✍️ الرسالة ستُضاف قريباً ]`
+      },
+      {
+        sender: "آية",
+        icon: "💐",
+        placeholder: true,
+        text: `[ ✍️ الرسالة ستُضاف قريباً ]`
+      },
+      {
+        sender: "زهرة",
+        icon: "🌺",
+        text: `ملوكة أحلى واحدة في الدنيا، واللطف واحدة، وأطيب واحدة 🥹♥️♥️♥️♥️♥️♥️♥️
+
+كل عام وأنتِ بخير.
+
+الله يجعل أيامك كلها سعادة وطاعة لله، والله يرضى عنك ويراضيكِ، ويُحبّب فيكِ كل الناس.
+
+وياريت الناس حلوة وقلبها حلو زيك.
+
+الله يرزقك زوج صالح يارب عاجلاً علشان ميبقاش حرمناكِ من حاجة — أهو 😂😂 بس بجد والله تستاهلي أحب الرجال لله والله 🫂♥️
+
+Happy Birthday to my little awesome girl 🥹♥️♥️♥️♥️♥️♥️`
+      },
+      {
+        sender: "ندي",
+        icon: "❤️",
+        text: `ملوكة حبيبتي، كل سنة وأنتِ طيبة وبخير وإلى الله أقرب يارب ❤️
+
+ممتنة لرسالة أنها عرّفتني على حد جميل زيك، ربنا يديم الود والحب بيننا يارب 🥰❤️
+
+ربنا يفرح قلبك ويجبر بخاطرك جبرًا يتعجب منه أهل السماوات والأرض.
+
+ويرزقك النجاح دنيا وآخرة، ويرزقك ويتم عليكِ حفظ كتابه الكريم، ويرزقك الزوج الصالح ونفرح بيكِ يارب ❤️🥰`
+      },
+      {
+        sender: "مريم هشام",
+        icon: "🤍",
+        text: `كل سنة وأنتِ طيبة يا ملوكة 💞
+
+يارب يتم شفاءك شفاءً لا يغادر سقمًا، وأشوفك خريجة وعروسة زي ما بتتمني وأحسن كمان.
+
+ونختم سوا، وأشوفك في عفو وعافية.
+
+وربنا يكفيك شر نفسك يا ملوكة إن شاء الله.
+
+وأشوف على خير في القاهرة بإذن الله سوا ونخربها جامد أووي 😂😂 (طبعًا عارفة بضحك ليه بس محدش فينا هيروح يقول 😂) 💞🫂🤩
+
+ملوكة كبرت يا ولاد ودخلت سن العشرينات 😎🥳🫶🏼`
+      },
+      {
+        sender: "ريم",
+        icon: "🌷",
+        placeholder: true,
+        text: `[ ✍️ الرسالة ستُضاف قريباً ]`
+      },
+      {
+        sender: "محمد وائل",
+        icon: "✨",
+        text: `كل عام وأنتِ إلى الله أقرب، وأسأل الله أن يكون عامُكِ القادم مليئًا بالخير والتوفيق.
+
+ويديم الله وجودك في RTC، فالتزامكِ واضح، وأثركِ الطيب ظاهر.
+
+— — —
+
+أيا من لها في الخيرِ سعيٌ مُباركٌ
+وفي كلِّ دربٍ للمعالي تُبادرُ
+
+لَكِ في قلوبِ الناسِ قدرٌ ومنزلٌ
+بخُلقٍ كريمٍ طابَ منهُ المعاشرُ
+
+— — —
+
+بارك الله لكِ في عمركِ، ووفّقكِ لكل خير، وجعل أيامكِ مليئة بالسعادة والنجاح.
+
+وارزقكِ من فضله ما تقرّ به عينُكِ، وحقّق لكِ ما ترجين، وجعلَكِ دائمًا سببًا للخير لمن حولكِ.`
+      },
+      {
+        sender: "نيرة",
+        icon: "🌙",
+        text: `كل سنة وأنتِ طيبة، وعقبال سنين كتير تكوني فيها محققة كل اللي بتتمنيه، وتكوني مبسوطة من قلبك كده دايمًا 🤍🤍
+
+بجد مبسوطة جدًا إني اتعرفت على شخصية لطيفة وجميلة زيك 🌸`
+      },
+      {
+        sender: "أسماء",
+        icon: "🦋",
+        text: `عيد ميلاد سعيد يا ملك يا أحلى صديقة 🌸🤍
+
+كل عام وأنتِ بخير، الله يبارك لكِ في عمرك ويخلي أيامك كلها فرح وطمأنينة 🎁💕
+
+قال تعالى: ﴿وَمَن يَعْمَلْ مِنَ الصَّالِحَاتِ﴾
+أسأل الله يحلي أيامك بطاعةٍ وراحة.
+
+وجزاكِ الله كل الخير مقابل ما ساعدتني وأعطيتني من وقت 💜
+
+وبإذن الله "ترجعين" علينا كل سنة بنفس الحماس… بس النهاردة أنتِ ملكة 😘👑
+
+#أحلى_عيد_ميلاد
+#فراشةً🦋_أم_وردةٌ🌷_أنتِ_حيّرتيني`
+      },
+      {
+        sender: "دنيا",
+        icon: "🩷",
+        text: `ملوكة يا ملوكة 🩷
+
+كل عام وأنتِ طيبة وبخير يا قمري، وعقبال سنين كتير جاية تكون مليانة فرح ونجاح وراحة بال.
+
+أتمنالك في كل أعوامك إن كل حلم في قلبك يقرب ليكِ، وكل خطوة تاخديها ربنا يكتبلك فيها الخير والتوفيق.
+
+وتفضلي دايمًا وسطنا ومنوّرة المكان وحياة اللي حواليكِ بضحكتك وروحك الحلوة.
+
+وربنا يجعل أيامك كلها مفاجآت سعيدة زيك كدا 🩷🥰`
+      }
+    ];
+
+    // ===========================
+    //  TYPEWRITER ENGINE
+    // ===========================
+    let currentMsgIndex = 0;
+    let typingInterval = null;
+    let charIndex = 0;
+    let isTypingDone = false;
+
+    function typeMessage(text, speed = 28) {
+      const el = document.getElementById('typewriter-text');
+      const cursor = document.getElementById('cursor');
+      const nextBtn = document.getElementById('next-btn');
+
+      el.textContent = '';
+      charIndex = 0;
+      isTypingDone = false;
+      nextBtn.disabled = true;
+      cursor.style.display = 'inline-block';
+
+      if (typingInterval) clearInterval(typingInterval);
+
+      typingInterval = setInterval(() => {
+        if (charIndex < text.length) {
+          el.textContent += text[charIndex];
+          charIndex++;
+          // auto scroll
+          const box = el.closest('.msg-text-box');
+          box.scrollTop = box.scrollHeight;
+        } else {
+          clearInterval(typingInterval);
+          typingInterval = null;
+          isTypingDone = true;
+          cursor.style.display = 'none';
+          nextBtn.disabled = false;
+        }
+      }, speed);
+    }
+
+    function skipTyping() {
+      if (typingInterval) {
+        clearInterval(typingInterval);
+        typingInterval = null;
+      }
+      const msg = MESSAGES[currentMsgIndex];
+      document.getElementById('typewriter-text').textContent = msg.text;
+      isTypingDone = true;
+      document.getElementById('cursor').style.display = 'none';
+      document.getElementById('next-btn').disabled = false;
+      const box = document.getElementById('typewriter-text').closest('.msg-text-box');
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function loadMessage(index) {
+      const msg = MESSAGES[index];
+      const total = MESSAGES.length;
+
+      // Update sender
+      document.getElementById('sender-name').textContent = msg.sender;
+      document.getElementById('sender-icon').textContent = msg.icon;
+
+      // Animate sender badge
+      const badge = document.getElementById('msg-sender');
+      badge.style.animation = 'none';
+      void badge.offsetWidth;
+      badge.style.animation = 'senderPop 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards';
+
+      // Counter
+      const arabicNums = ['١','٢','٣','٤','٥','٦','٧','٨','٩','١٠','١١','١٢'];
+      document.getElementById('msg-counter').textContent = `${arabicNums[index]} / ${arabicNums[total-1]}`;
+
+      // Progress
+      document.getElementById('progress-fill').style.width = `${((index+1)/total)*100}%`;
+
+      // Next button label
+      const nextBtn = document.getElementById('next-btn');
+      if (index === total - 1) {
+        nextBtn.textContent = '✨ أغلق';
+      } else {
+        nextBtn.innerHTML = 'الرسالة الجاية ←';
+      }
+
+      // Type it
+      typeMessage(msg.text, msg.placeholder ? 15 : 28);
+    }
+
+    function nextMessage() {
+      if (currentMsgIndex < MESSAGES.length - 1) {
+        currentMsgIndex++;
+        loadMessage(currentMsgIndex);
+      } else {
+        closeMessages();
+      }
+    }
+
+    function openMessages() {
+      currentMsgIndex = 0;
+      const overlay = document.getElementById('messages-overlay');
+      overlay.style.display = 'flex';
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          overlay.classList.add('fade-in');
+          document.body.style.overflow = 'hidden';
+          loadMessage(0);
+          spawnMsgParticles();
+        });
+      });
+    }
+
+    function closeMessages() {
+      if (typingInterval) { clearInterval(typingInterval); typingInterval = null; }
+      const overlay = document.getElementById('messages-overlay');
+      overlay.classList.remove('fade-in');
+      setTimeout(() => {
+        overlay.style.display = 'none';
+        document.body.style.overflow = '';
+      }, 500);
+    }
+
+    // Particles inside overlay
+    function spawnMsgParticles() {
+      const container = document.getElementById('msg-particles');
+      container.innerHTML = '';
+      const colors = ['#ff6b9d','#ffd700','#e8b4d0','#c9184a','#ffb347'];
+      for (let i = 0; i < 20; i++) {
+        const p = document.createElement('div');
+        p.className = 'msg-particle';
+        const size = Math.random()*6+3;
+        p.style.cssText = `
+          width:${size}px; height:${size}px;
+          left:${Math.random()*100}%;
+          background:${colors[Math.floor(Math.random()*colors.length)]};
+          animation-duration:${Math.random()*8+6}s;
+          animation-delay:${Math.random()*4}s;
+        `;
+        container.appendChild(p);
+      }
+    }
+
+    // ===========================
+    //  STARS
+    // ===========================
+    const starsEl = document.getElementById('stars');
+    for (let i = 0; i < 120; i++) {
+      const s = document.createElement('div');
+      s.className = 'star';
+      const size = Math.random()*3+1;
+      s.style.cssText = `
+        width:${size}px; height:${size}px;
+        top:${Math.random()*100}%;
+        left:${Math.random()*100}%;
+        --d:${Math.random()*3+2}s;
+        animation-delay:${Math.random()*4}s;
+      `;
+      starsEl.appendChild(s);
+    }
+
+    // ===========================
+    //  PASSWORD
+    // ===========================
+    function tryUnlock() {
+      const val = document.getElementById('pwd').value.trim();
+      const lockBox = document.getElementById('lock-box');
+      const err = document.getElementById('err');
+      if (val === 'Malak') {
+        document.getElementById('lock-screen').classList.add('hide');
+        setTimeout(() => {
+          document.getElementById('lock-screen').style.display = 'none';
+          document.getElementById('birthday-page').classList.add('visible');
+          document.getElementById('bg-music').play().catch(()=>{});
+          launchConfetti();
+          startFloatingHearts();
+        }, 800);
+      } else {
+        err.classList.add('show');
+        lockBox.classList.remove('shake');
+        void lockBox.offsetWidth;
+        lockBox.classList.add('shake');
+      }
+    }
+
+    // ===========================
+    //  CONFETTI
+    // ===========================
+    function launchConfetti() {
+      const colors = ['#ff6b9d','#ffd700','#ff8fab','#c9184a','#fff','#ffb347','#e8b4d0'];
+      for (let i = 0; i < 150; i++) {
+        setTimeout(() => {
+          const c = document.createElement('div');
+          c.className = 'confetti-piece';
+          const size = Math.random()*10+6;
+          c.style.cssText = `
+            left:${Math.random()*100}vw;
+            width:${size}px; height:${size}px;
+            background:${colors[Math.floor(Math.random()*colors.length)]};
+            border-radius:${Math.random()>0.5?'50%':'2px'};
+            animation-duration:${Math.random()*2+2}s;
+            animation-delay:${Math.random()*1}s;
+          `;
+          document.body.appendChild(c);
+          setTimeout(()=>c.remove(), 4000);
+        }, i*20);
+      }
+    }
+
+    // ===========================
+    //  FLOATING HEARTS
+    // ===========================
+    function startFloatingHearts() {
+      const container = document.getElementById('hearts-container');
+      const emojis = ['❤️','💖','💕','🌹','✨','💫','🎉'];
+      setInterval(() => {
+        const h = document.createElement('div');
+        h.className = 'heart';
+        h.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+        h.style.cssText = `
+          left:${Math.random()*100}%;
+          font-size:${Math.random()*16+14}px;
+          animation-duration:${Math.random()*6+6}s;
+          animation-delay:${Math.random()*2}s;
+        `;
+        container.appendChild(h);
+        setTimeout(()=>h.remove(), 14000);
+      }, 600);
+    }
+  </script>
+</body>
+</html>
